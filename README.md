@@ -5,3 +5,6 @@ To run the application - Run the java file DemoApplication which contains public
 and go to :
 "localhost:8080/api/User/controller-function"
 "localhost:8080/api/Stock/controller-function"
+
+
+StockCart/src/main/java/ -- contains all the source code.
