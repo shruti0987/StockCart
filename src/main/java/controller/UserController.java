@@ -11,4 +11,5 @@ import repository.UserRepository;
 public class UserController {
  
 	@Autowired UserRepository userRepo;
+	 
 }

@@ -53,7 +53,7 @@ public class Stock {
 	}
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO) //change to foreign key too
 	public void setId(int id)
 	{
 		this.id = id;
