@@ -8,3 +8,5 @@ and go to :
 
 
 StockCart/src/main/java/ -- contains all the source code.
+
+To check the swagger api go to -- >http://localhost:8080/swagger-ui.html
