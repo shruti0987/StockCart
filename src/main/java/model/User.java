@@ -18,9 +18,9 @@ public class User {
 	private String Password;
 	private long id;
 	
-	User(){}
+	public User(){}
 	
-	User(String Fname,String Lname,String Username,String Password)
+	public User(String Fname,String Lname,String Username,String Password)
 	{
 		this.Fname = Fname;
 		this.Lname = Lname;
@@ -40,7 +40,7 @@ public class User {
 	}
 	
 	@Column(name = "FirstName",nullable = false)
-	public String getFname()
+	public String getFirstName()
 	{
 		return Fname;
 	}

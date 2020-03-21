@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "Stocks")
+//@Table(name = "Stocks")
 public class Stock {
 
 	private String companyName;
@@ -18,9 +18,9 @@ public class Stock {
 	private String category;
 	private long id;
 	
-	Stock(){}
+	public Stock(){}
 	
-	Stock(String companyName,String category,float price,int quantityBought)
+	public Stock(String companyName,String category,float price,int quantityBought)
 	{
 		this.companyName = companyName;
 		this.category = category;

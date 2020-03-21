@@ -7,24 +7,30 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import model.Stock;
-import repository.StockRepository;
+import service.StockService;
+
 // https://www.javaguides.net/2020/01/spring-boot-hibernate-oracle-crud-example.html
 @RestController
-@RequestMapping("/api/Stock")
+@RequestMapping("/Stock")
+@Api(tags = "{stocks}")
 public class StockController {
 
-	@Autowired StockRepository stockRepo;
+	@Autowired
+    private StockService stockService;
 	
 	@GetMapping("/api/Stock/stocks")
+	@ApiOperation(value = "Get all stocks.", notes = "Returns a list of all stocks.")
 	public List<Stock> getStocks()
 	{
-		return stockRepo.findAll();
+		return stockService.getAllStocks();
 	}
 	
 	@GetMapping("/api/Stock/stocks/{id}")
 	public Stock getStockById(long id)
 	{
-		return stockRepo.findById(id).orElseThrow(); //add exception
+		return stockService.getStock(id).orElseThrow(); //add exception
 	}
 }
