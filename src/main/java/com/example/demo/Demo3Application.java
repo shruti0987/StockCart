@@ -10,8 +10,11 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 @SpringBootApplication
 @Configuration
+@EnableSwagger2
 @EnableAutoConfiguration //(exclude = {DataSourceAutoConfiguration.class })
 @EnableJpaRepositories("/StockCart/src/main/java/repository")
 public class Demo3Application extends SpringBootServletInitializer {

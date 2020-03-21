@@ -22,12 +22,4 @@ public class SpringFoxConfig {
           .paths(PathSelectors.any())                          
           .build();                                           
     }
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-                .title("StockCart")
-                .description("Buy top stocks!")
-                .termsOfServiceUrl("http://www.stockcart.com/")
-                .version("1.0")
-                .build();
-    }
 }
