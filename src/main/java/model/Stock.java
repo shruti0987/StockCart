@@ -7,16 +7,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 
 @Entity
-//@Table(name = "Stocks")
+@Table(name = "Stocks")
+@ApiModel(description="All details about the Stocks. ")
 public class Stock {
 
 	private String companyName;
 	private int quantityBought;
 	private float price;
 	private String category;
-	private long id;
+	@ApiModelProperty(notes = "The database generated stock ID")
+	@Id @GeneratedValue(strategy=GenerationType.AUTO)private long id;
 	
 	public Stock(){}
 	
@@ -52,8 +57,8 @@ public class Stock {
 		return quantityBought;
 	}
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO) //change to foreign key too
+	
+	//@GeneratedValue(strategy = GenerationType.AUTO) //change to foreign key too
 	public void setId(int id)
 	{
 		this.id = id;

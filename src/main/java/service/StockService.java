@@ -1,5 +1,4 @@
 package service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +12,7 @@ import repository.StockRepository;
 
 @Service
 public class StockService {
-	private static final Logger log = LoggerFactory.getLogger(StockService.class);
+	
 	@Autowired
     private StockRepository stockRepository;
 	

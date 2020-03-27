@@ -1,5 +1,4 @@
 package model;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,16 +6,29 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 
 @Entity
 @Table(name = "Users")
+@RequestMapping("/user")
+@ApiModel(description="All details about the Users. ")
 public class User {
 	
+	@ApiModelProperty(notes = "The user first name")
 	private String Fname;
+	
+	@ApiModelProperty(notes = "The user last name")
 	private String Lname;
+	
 	private String Username;
 	private String Password;
-	private long id;
+	
+	@ApiModelProperty(notes = "The database generated user ID")
+	@Id @GeneratedValue(strategy=GenerationType.AUTO) private long id;
 	
 	public User(){}
 	
@@ -28,8 +40,8 @@ public class User {
 		this.Password = Password;
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	
+	//@GeneratedValue(strategy = GenerationType.AUTO)
 	public void setId(int id)
 	{
 		this.id = id;
@@ -82,5 +94,10 @@ public class User {
 		this.Password = Password;
 	}
 	
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", firstName=" + getFirstName() + ", lastName=" + getLastName()
+				+ "]";
+	}
 	
 }
