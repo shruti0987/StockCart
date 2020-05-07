@@ -1,9 +1,14 @@
 package model;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,13 +28,19 @@ public class User {
 	
 	@ApiModelProperty(notes = "The user last name")
 	private String Lname;
-	
 	private String Username;
 	private String Password;
 	
 	@ApiModelProperty(notes = "The database generated user ID")
 	@Id @GeneratedValue(strategy=GenerationType.AUTO) private long id;
 	
+//    @OneToMany(
+//            mappedBy = "userid",
+//            cascade = CascadeType.PERSIST,
+//            fetch = FetchType.LAZY
+//        )
+//    private Set<SavedStocks> ss;
+    
 	public User(){}
 	
 	public User(String Fname,String Lname,String Username,String Password)
@@ -94,6 +105,16 @@ public class User {
 		this.Password = Password;
 	}
 	
+//	public Set<SavedStocks> getSavedStocks() {
+//        return ss;
+//    }
+//
+//	  public void setSavedStocks(Set<SavedStocks> st) {
+//	        this.ss = st;
+//	        for (SavedStocks stock : st) {
+//	            stock.setSavedStockUserID(this);
+//	        }
+//	  }
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", firstName=" + getFirstName() + ", lastName=" + getLastName()

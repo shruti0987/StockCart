@@ -72,7 +72,7 @@ public class StockController {
             .orElseThrow(() -> new ResourceNotFoundException("Stock not found for this id :: " + StockId));
 
         stock.setCompanyName(stockDetails.getCompanyName());
-        stock.setCategory(stockDetails.getCategory());
+        //stock.setCategory(stockDetails.getCategory());
         stock.setPrice(stockDetails.getPrice());
         stock.setQuantityBought(stockDetails.getQuantityBought());
 

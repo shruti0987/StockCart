@@ -1,10 +1,12 @@
 package model;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import io.swagger.annotations.ApiModel;
@@ -17,20 +19,30 @@ import io.swagger.annotations.ApiModelProperty;
 public class Stock {
 
 	private String companyName;
-	private int quantityBought;
-	private float price;
-	private String category;
+	//private int quantityBought;
 	@ApiModelProperty(notes = "The database generated stock ID")
-	@Id @GeneratedValue(strategy=GenerationType.AUTO)private long id;
+	@Id @GeneratedValue(strategy=GenerationType.AUTO)private long stockid;
+	
+//    @OneToMany(mappedBy = "u",
+//            cascade = CascadeType.PERSIST,
+//            fetch = FetchType.LAZY)
+//    private Set<SavedStocks> ss;
+    
+	private float price;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="stock_category_id", referencedColumnName="sectorid")
+	private Sector stockCategory;
+	private int quantityBought;
+	
 	
 	public Stock(){}
 	
-	public Stock(String companyName,String category,float price,int quantityBought)
+	public Stock(String companyName,Sector category,float price)
 	{
 		this.companyName = companyName;
-		this.category = category;
+		this.stockCategory = category;
 		this.price = price;
-		this.quantityBought = quantityBought;
+		//this.quantityBought = quantityBought;
 	}
 	
 	@Column(name = "comapanyName",nullable = false)
@@ -39,10 +51,11 @@ public class Stock {
 		return companyName;
 	}
 	
+	
 	@Column(name = "category",nullable = false)
-	public String getCategory()
+	public Sector getCategory()
 	{
-		return category;
+		return stockCategory;
 	}
 	
 	@Column(name = "price",nullable = false)
@@ -61,20 +74,21 @@ public class Stock {
 	//@GeneratedValue(strategy = GenerationType.AUTO) //change to foreign key too
 	public void setId(int id)
 	{
-		this.id = id;
+		this.stockid = id;
 	}
 	public long getId()
 	{
-		return id;
+		return stockid;
 	}
 	public void setCompanyName(String companyName)
 	{
 		this.companyName = companyName;
 	}
 	
-	public void setCategory(String category)
+	public void setStockCategory(Sector category)
 	{
-		this.category = category;
+		this.stockCategory = category;
+		stockCategory.getStocks().add(this);
 	}
 	
 	public void setPrice(float price)
@@ -88,3 +102,5 @@ public class Stock {
 	}
 	
 }
+
+

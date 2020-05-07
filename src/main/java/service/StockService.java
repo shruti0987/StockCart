@@ -1,9 +1,6 @@
 package service;
 import java.util.List;
 import java.util.Optional;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,16 +16,16 @@ public class StockService {
 	public StockService() {
     }
 
-    public Stock createStock(Stock hotel) {
-        return stockRepository.save(hotel);
+    public Stock createStock(Stock s) {
+        return stockRepository.save(s);
     }
 
     public Optional<Stock> getStock(long id) {
         return stockRepository.findById(id);
     }
 
-    public void updateStock(Stock hotel) {
-    	stockRepository.save(hotel);
+    public void updateStock(Stock s) {
+    	stockRepository.save(s);
     }
 
     public void deleteStocks(Long id) {
