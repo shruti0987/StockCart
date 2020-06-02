@@ -9,4 +9,4 @@ http://localhost:8081/swagger-ui.html
 To sign in use username  = "username" and password = "password"
 StockCart/src/main/java/ -- contains all the source code.
 
-To check the swagger api go to -- >http://localhost:8080/swagger-ui.html
+To check the swagger api go to -- >http://localhost:8081/swagger-ui.html
