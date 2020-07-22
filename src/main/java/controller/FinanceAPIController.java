@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -32,122 +33,83 @@ import org.slf4j.Logger;
 
 //Refer to https://github.com/sstrickx/yahoofinance-api
 @RestController
-@RequestMapping("/alpha_vantage_api")
+@RequestMapping("/finance_api")
 @Api(value = "API controller" )
 @Component
 public class FinanceAPIController {
 
 		Stock stock;
 		List<HistoricalQuote> history = null;
-		ArrayList<String> dates = new ArrayList<String>();
-		ArrayList<BigDecimal> ClosingPrice = new ArrayList<BigDecimal>();
-		ArrayList<Double> moneyValue = new ArrayList<Double>();
-		ArrayList<Double> percentReturn = new ArrayList<Double>();
-		ArrayList<Double> hvarlist = new ArrayList<Double>();
-		ArrayList<String> list = new ArrayList<String>() ;
-
+		String[] Nifty50companies = new String[]{"BAJAJ-AUTO.NS",
+					          "EICHERMOT.NS",
+					          "HEROMOTOCO.NS", 
+					          "M&M.NS",
+					          "MARUTI.NS",
+					          "TATAMOTORS.NS", 
+					          "AXISBANK.NS", 
+					          "HDFCBANK.NS",
+					          "ICICIBANK.NS", 
+					          "INDUSINDBK.NS", 
+					          "KOTAKBANK.NS", 
+					          "SBIN.NS",
+					          "GRASIM.NS" , 
+					          "SHREECEM.NS", 
+					          "ULTRACEMCO.NS", 
+					          "UPL.NS",
+					          "LT.NS", 
+					          "ASIANPAINT.NS", 
+					          "BRITANNIA.NS", 
+					          "HINDUNILVR.NS", 
+					          "ITC.NS",
+					          "NESTLEIND.NS", 
+					          "TITAN.NS",
+					          "BPCL.NS", 
+					          "GAIL.NS", 
+					          "IOC.NS", 
+					          "ONGC.NS", 
+					          "RELIANCE.NS", 
+					          "NTPC.NS",
+					          "POWERGRID.NS", 
+					          "COALINDIA.NS", 
+					          "BAJFINANCE.NS", 
+					          "BAJAJFINSV.NS", 
+					          "HDFC.NS",
+					          "HCLTECH.NS", 
+					          "INFY.NS", 
+					          "TCS.NS", 
+					          "TECHM.NS", 
+					          "WIPRO.NS", 
+					          "ADANIPORTS.NS", 
+					          "ZEEL.NS", 
+					          "HINDALCO.NS", 
+					          "JSWSTEEL.NS", 
+					          "TATASTEEL.NS", 
+					          "VEDL.NS", 
+					          "CIPLA.NS", 
+					          "DRREDDY.NS", 
+					          "SUNPHARMA.NS", 
+					          "BHARTIARTL.NS", 
+					          "INFRATEL.NS"};
+		
 		private static final org.jboss.logging.Logger LOGGER = LoggerFactory.logger(Api.class);
-
-		public long getAllDays(int dayOfWeek, long businessDays) {
-
-		   long result = 0;
-		   if (businessDays != 0) {
-		       boolean isStartOnWorkday = dayOfWeek < 6;
-		       long absBusinessDays = Math.abs(businessDays);
-		       if (isStartOnWorkday) {
-		           int shiftedWorkday = businessDays > 0 ? dayOfWeek : 6 - dayOfWeek;
-		           result = absBusinessDays + (absBusinessDays + shiftedWorkday - 1) / 5 * 2;
-		       } else {
-		           int shiftedWeekend = businessDays > 0 ? dayOfWeek : 13 - dayOfWeek;
-		           result = absBusinessDays + (absBusinessDays - 1) / 5 * 2 + (7 - shiftedWeekend);
-		       }
-		   }
-		   return result;
-		}
-
-		public List<HistoricalQuote> FetchHistoricData()
+		
+		@GetMapping("/fetch_data")
+		public List<String> FetchHistoricData()
 		{
-		LocalDate startDate = LocalDate.now();
-		Date date_sorted = Date.from(startDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-		Calendar cal1 = Calendar.getInstance();
-		cal1.setTime(date_sorted);
-
-		long businessDays = -250;
-		LocalDate endDate = startDate.minusDays(getAllDays(startDate.getDayOfWeek().getValue(), businessDays));
-		Date date = Date.from(endDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-		String option1 = null;
-
-		String filePath = "D:\\WorkspaceNew\\IntegratedSpringApplications\\Application_2\\Consumer1\\File.txt";
-		       
-		   try {
-		    BufferedReader lineReader = new BufferedReader(new FileReader(filePath));
-		       String lineText = null;
-		       while ((lineText = lineReader.readLine()) != null) {
-		        list.add(lineText);
-		       }
-		       
-		   lineReader.close();
-		       } catch (IOException ex) {
-		           System.err.println(ex);
-		       }
-		 
-		   option1 = list.get(0);
-		long days = ChronoUnit.DAYS.between(date.toInstant(), date_sorted.toInstant());
-		Calendar from = Calendar.getInstance();
-		   Calendar to = Calendar.getInstance();
-		   to.add(cal1.DATE,-1);
-		      from.add(cal1.DATE , - (int)days);
-		      String b1 = null;
-		if(option1.equalsIgnoreCase("NIFTY"))
-		{
-		b1 = "^NSEI";
-		}
-		         
-		      try {
-		     
-		      Stock stock = YahooFinance.get(b1, from, to, Interval.DAILY);
-		         history =  stock.getHistory(from, to, Interval.DAILY);
-		   }
-		     
-		      catch (IOException e) {
-		       e.printStackTrace();
-		       }
-		     
-		      return history;
-		}
-
-		public ArrayList<String> RespectiveDates()
-		{
-		List<HistoricalQuote> historicalQuotes = FetchHistoricData();
-		for (HistoricalQuote historicalQuote : historicalQuotes)
-		      {
-		if(historicalQuote.getClose()!=null)
-		{
-		ClosingPrice.add(historicalQuote.getClose());
-		           Calendar d= historicalQuote.getDate();
-		           SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-		           String formatted = format1.format(d.getTime());
-		           dates.add(formatted);
-		}
-
-		      }
-		LOGGER.info("DATES FETCHED!");
-		      return dates;
-		}
-
-		public ArrayList<BigDecimal> ClosingPrice()
-		{
-		ClosingPrice.clear();
-		List<HistoricalQuote> historicalQuotes = FetchHistoricData();
-		for (HistoricalQuote historicalQuote : historicalQuotes)
-		      {
-		if(historicalQuote.getClose()!=null)
-		{
-		ClosingPrice.add(historicalQuote.getClose());
-		}
-
-		      }
-		LOGGER.info("CLOSING PRICE FETCHED");
-		      return ClosingPrice;
+			List<String> return_info = new ArrayList<>();
+			try {
+				Map<String,Stock> stocks = YahooFinance.get(Nifty50companies);
+				for(String company : Nifty50companies)
+				{
+					Stock s =stocks.get(company);
+					s.print();
+					return_info.add(s.toString());
+					
+				}
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
+			return return_info;
 		}
 }
