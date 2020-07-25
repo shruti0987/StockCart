@@ -40,6 +40,36 @@ public class FinanceAPIController {
 
 		Stock stock;
 		List<HistoricalQuote> history = null;
+	        /*
+		HashMap<String,List> sector=new HashMap<String,List>();
+		List<String> automobile = new ArrayList<>();
+		List<String> banking = new ArrayList<>();
+		List<String> cement = new ArrayList<>();
+		List<String> energy = new ArrayList<>();
+		List<String> information = new ArrayList<>();
+
+		//Creating HashMap
+
+		public void updatelist()
+		{
+			automobile.addAll(Arrays.asList("BAJAJ-AUTO.NS" ,"EICHERMOT.NS" , "HEROMOTOCO.NS" , "M&M.NS" , "MARUTI.NS" ,
+					"TATAMOTORS.NS"));
+			banking.addAll(Arrays.asList("AXISBANK.NS" ,"HDFCBANK.NS" , "ICICIBANK.NS " , " INDUSINDBK.NS " , "KOTAKBANK.NS " ,
+					" SBIN.NS"));
+			cement.addAll(Arrays.asList("ASIANPAINT.NS" , "BRITANNIA.NS" , "HINDUNILVR.NS" , "ITC.NS" , "NESTLEIND.NS" ,
+					"TITAN.NS"));
+			energy.addAll(Arrays.asList("BPCL.NS","GAIL.NS" , "IOC.NS" , "ONGC.NS" , "RELIANCE.NS" ,"NTPC.NS","POWERGRID.NS"));
+			information.addAll(Arrays.asList("HCLTECH.NS" , "INFY.NS" , "TCS.NS" , "TECHM.NS" , "WIPRO.NS"));
+		}
+		public void updatemap() {
+			updatelist();
+			sector.put("Automobile", automobile);
+			sector.put("Banking",banking);
+			sector.put("Cement",cement);
+			sector.put("Energy",energy);
+			sector.put("Information Technology",information);
+		}
+      */
 		String[] Nifty50companies = new String[]{"BAJAJ-AUTO.NS",
 					          "EICHERMOT.NS",
 					          "HEROMOTOCO.NS", 
