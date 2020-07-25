@@ -1,145 +1,121 @@
 package controller;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-
-import java.math.BigDecimal;
-import java.util.Date;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import yahoofinance.*;
-import yahoofinance.histquotes.HistoricalQuote;
-import yahoofinance.histquotes.Interval;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
-import org.slf4j.Logger;
-
+import model.RStock;
 
 //Refer to https://github.com/sstrickx/yahoofinance-api
 @RestController
 @RequestMapping("/finance_api")
-@Api(value = "API controller" )
+@Api(value = "API controller")
 @Component
 public class FinanceAPIController {
 
-		Stock stock;
-		List<HistoricalQuote> history = null;
-	        /*
-		HashMap<String,List> sector=new HashMap<String,List>();
-		List<String> automobile = new ArrayList<>();
-		List<String> banking = new ArrayList<>();
-		List<String> cement = new ArrayList<>();
-		List<String> energy = new ArrayList<>();
-		List<String> information = new ArrayList<>();
+	Map<String, List<String>> sector_wise_companies = Map.ofEntries(
+			new AbstractMap.SimpleEntry<String, List<String>>("Automobile",
+					new ArrayList<>(Arrays.asList("BAJAJ-AUTO.NS", "EICHERMOT.NS", "HEROMOTOCO.NS", "M&M.NS",
+							"MARUTI.NS", "TATAMOTORS.NS"))),
+			new AbstractMap.SimpleEntry<String, List<String>>("Banking",
+					new ArrayList<>(Arrays.asList("AXISBANK.NS", "HDFCBANK.NS", "ICICIBANK.NS ", " INDUSINDBK.NS ",
+							"KOTAKBANK.NS ", " SBIN.NS"))),
+			new AbstractMap.SimpleEntry<String, List<String>>("Cement",
+					new ArrayList<>(Arrays.asList("ASIANPAINT.NS", "BRITANNIA.NS", "HINDUNILVR.NS", "ITC.NS",
+							"NESTLEIND.NS", "TITAN.NS"))),
+			new AbstractMap.SimpleEntry<String, List<String>>("Energy",
+					new ArrayList<>(Arrays.asList("BPCL.NS", "GAIL.NS", "IOC.NS", "ONGC.NS", "RELIANCE.NS", "NTPC.NS",
+							"POWERGRID.NS"))),
+			new AbstractMap.SimpleEntry<String, List<String>>("Information Technology",
+					new ArrayList<>(Arrays.asList("HCLTECH.NS", "INFY.NS", "TCS.NS", "TECHM.NS", "WIPRO.NS"))));
 
-		//Creating HashMap
+	@GetMapping("/fetch_data/{category}")
+	@ApiOperation(value = "fetch sector data", notes = "Fetch data from yahoo finance api for particular category")
+	public Map<String, String> FetchHistoricData(@PathVariable("category") String category) {
+		
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, String> res = new HashMap<>();
+		
+		try {
+			List<String> companies = sector_wise_companies.get(category);
 
-		public void updatelist()
-		{
-			automobile.addAll(Arrays.asList("BAJAJ-AUTO.NS" ,"EICHERMOT.NS" , "HEROMOTOCO.NS" , "M&M.NS" , "MARUTI.NS" ,
-					"TATAMOTORS.NS"));
-			banking.addAll(Arrays.asList("AXISBANK.NS" ,"HDFCBANK.NS" , "ICICIBANK.NS " , " INDUSINDBK.NS " , "KOTAKBANK.NS " ,
-					" SBIN.NS"));
-			cement.addAll(Arrays.asList("ASIANPAINT.NS" , "BRITANNIA.NS" , "HINDUNILVR.NS" , "ITC.NS" , "NESTLEIND.NS" ,
-					"TITAN.NS"));
-			energy.addAll(Arrays.asList("BPCL.NS","GAIL.NS" , "IOC.NS" , "ONGC.NS" , "RELIANCE.NS" ,"NTPC.NS","POWERGRID.NS"));
-			information.addAll(Arrays.asList("HCLTECH.NS" , "INFY.NS" , "TCS.NS" , "TECHM.NS" , "WIPRO.NS"));
-		}
-		public void updatemap() {
-			updatelist();
-			sector.put("Automobile", automobile);
-			sector.put("Banking",banking);
-			sector.put("Cement",cement);
-			sector.put("Energy",energy);
-			sector.put("Information Technology",information);
-		}
-      */
-		String[] Nifty50companies = new String[]{"BAJAJ-AUTO.NS",
-					          "EICHERMOT.NS",
-					          "HEROMOTOCO.NS", 
-					          "M&M.NS",
-					          "MARUTI.NS",
-					          "TATAMOTORS.NS", 
-					          "AXISBANK.NS", 
-					          "HDFCBANK.NS",
-					          "ICICIBANK.NS", 
-					          "INDUSINDBK.NS", 
-					          "KOTAKBANK.NS", 
-					          "SBIN.NS",
-					          "GRASIM.NS" , 
-					          "SHREECEM.NS", 
-					          "ULTRACEMCO.NS", 
-					          "UPL.NS",
-					          "LT.NS", 
-					          "ASIANPAINT.NS", 
-					          "BRITANNIA.NS", 
-					          "HINDUNILVR.NS", 
-					          "ITC.NS",
-					          "NESTLEIND.NS", 
-					          "TITAN.NS",
-					          "BPCL.NS", 
-					          "GAIL.NS", 
-					          "IOC.NS", 
-					          "ONGC.NS", 
-					          "RELIANCE.NS", 
-					          "NTPC.NS",
-					          "POWERGRID.NS", 
-					          "COALINDIA.NS", 
-					          "BAJFINANCE.NS", 
-					          "BAJAJFINSV.NS", 
-					          "HDFC.NS",
-					          "HCLTECH.NS", 
-					          "INFY.NS", 
-					          "TCS.NS", 
-					          "TECHM.NS", 
-					          "WIPRO.NS", 
-					          "ADANIPORTS.NS", 
-					          "ZEEL.NS", 
-					          "HINDALCO.NS", 
-					          "JSWSTEEL.NS", 
-					          "TATASTEEL.NS", 
-					          "VEDL.NS", 
-					          "CIPLA.NS", 
-					          "DRREDDY.NS", 
-					          "SUNPHARMA.NS", 
-					          "BHARTIARTL.NS", 
-					          "INFRATEL.NS"};
-		
-		private static final org.jboss.logging.Logger LOGGER = LoggerFactory.logger(Api.class);
-		
-		@GetMapping("/fetch_data")
-		public List<String> FetchHistoricData()
-		{
-			List<String> return_info = new ArrayList<>();
-			try {
-				Map<String,Stock> stocks = YahooFinance.get(Nifty50companies);
-				for(String company : Nifty50companies)
-				{
-					Stock s =stocks.get(company);
-					s.print();
-					return_info.add(s.toString());
-					
+			String[] tmp = new String[companies.size()];
+			for (int i = 0; i < tmp.length; i++)
+				tmp[i] = companies.get(i);
+
+			Map<String, Stock> stocks = YahooFinance.get(tmp);
+			List<Stock> sorted_stocks = new ArrayList<>(stocks.values());
+
+			Collections.sort(sorted_stocks, new Comparator<Stock>() {
+				public int compare(Stock s1, Stock s2) {
+					return s2.getQuote().getPrice().compareTo(s1.getQuote().getPrice());
 				}
-			} catch (IOException e1) {
-				e1.printStackTrace();
+			});
+
+			if (stocks.size() == 0)
+				System.out.print("Unable to fetch data from yahoo api.");
+			else {
+				for (Stock company : sorted_stocks) {
+					if (company == null)
+						continue;
+					if (res.size() == 5)
+						break;
+					RStock t = new RStock(company, category);
+					System.out.println(t);
+					res.put(company.getSymbol(), mapper.writeValueAsString(t));
+				}
 			}
-			
-			return return_info;
+
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
+		return res;
+
+	}
+
+	@GetMapping("/fetch_data_all") // fetches data for all categories
+	public Map<String, String> FetchHistoricDataALL() {
+		
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, String> res = new HashMap<>();
+		
+		try {
+			for (String sector : sector_wise_companies.keySet()) {
+				List<String> companies = sector_wise_companies.get(sector);
+				
+				String[] tmp = new String[companies.size()];
+				for (int i = 0; i < tmp.length; i++)
+					tmp[i] = companies.get(i);
+				
+				Map<String, Stock> stocks = YahooFinance.get(tmp);
+				List<Stock> all_stocks = new ArrayList<>(stocks.values());
+				
+				for (Stock company : all_stocks) {
+					if (company == null)
+						continue;
+					RStock t = new RStock(company, sector);
+					System.out.println(t);
+					res.put(company.getSymbol(), mapper.writeValueAsString(t));
+				}
+			}
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		return res;
+	}
+
 }

@@ -1,4 +1,6 @@
 package model;
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,46 +13,45 @@ import javax.persistence.Table;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.ToString;
+import yahoofinance.Stock;
 
-
+@ToString
 @Entity
 @Table(name = "Stocks")
 @ApiModel(description="All details about the Stocks. ")
-public class Stock {
+public class RStock {
 
 	private String companyName;
-	//private int quantityBought;
 	@ApiModelProperty(notes = "The database generated stock ID")
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)private long stockid;
-	
-//    @OneToMany(mappedBy = "u",
-//            cascade = CascadeType.PERSIST,
-//            fetch = FetchType.LAZY)
-//    private Set<SavedStocks> ss;
-    
-	private float price;
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="stock_category_id", referencedColumnName="sectorid")
 	private Sector stockCategory;
-	private int quantityBought;
 	
+	String sector;
+	BigDecimal price;
+	BigDecimal bid;
+	BigDecimal ask;
+	BigDecimal change;
 	
-	public Stock(){}
-	
-	public Stock(String companyName,Sector category,float price)
+	public RStock(Stock s,String sector)
 	{
-		this.companyName = companyName;
-		this.stockCategory = category;
-		this.price = price;
-		//this.quantityBought = quantityBought;
+		this.companyName = s.getName();
+		this.sector = sector;
+		this.price = s.getQuote().getPrice();
+		this.bid = s.getQuote().getBid();
+		this.ask = s.getQuote().getAsk();
+		this.change = s.getQuote().getChange();
 	}
 	
-	@Column(name = "comapanyName",nullable = false)
+	public RStock(){}
+	
+	@Column(name = "companyName",nullable = false)
 	public String getCompanyName()
 	{
 		return companyName;
 	}
-	
 	
 	@Column(name = "category",nullable = false)
 	public Sector getCategory()
@@ -59,17 +60,10 @@ public class Stock {
 	}
 	
 	@Column(name = "price",nullable = false)
-	public float getPrice()
+	public BigDecimal getPrice()
 	{
 		return price;
 	}
-	
-	@Column(name = "quantityBought",nullable = false)
-	public int getQuantityBought()
-	{
-		return quantityBought;
-	}
-	
 	
 	//@GeneratedValue(strategy = GenerationType.AUTO) //change to foreign key too
 	public void setId(int id)
@@ -88,17 +82,11 @@ public class Stock {
 	public void setStockCategory(Sector category)
 	{
 		this.stockCategory = category;
-		stockCategory.getStocks().add(this);
 	}
-	
-	public void setPrice(float price)
-	{
+
+	public void setPrice(BigDecimal price) {
+		// TODO Auto-generated method stub
 		this.price = price;
-	}
-	
-	public void setQuantityBought(int quantityBought)
-	{
-		this.quantityBought = quantityBought;
 	}
 	
 }

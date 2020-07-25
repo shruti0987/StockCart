@@ -2,11 +2,8 @@ package controller;
 
 import java.util.List;
 import java.util.Map;
-
 import javax.validation.Valid;
-
 import java.util.HashMap;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -18,11 +15,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import exception.ResourceNotFoundException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import model.Stock;
+import model.RStock;
 import service.StockService;
 
 // https://www.javaguides.net/2020/01/spring-boot-hibernate-oracle-crud-example.html
@@ -43,23 +39,23 @@ public class StockController {
 	
 	@GetMapping("/displayAllStocks")
 	@ApiOperation(value = "Get all stocks.", notes = "Returns a list of all stocks.")
-	public List<Stock> getAllStocks()
+	public List<RStock> getAllStocks()
 	{
 		return stockService.getAllStocks();
 	}
 	
     @GetMapping("/getStock/{id}")
 	   @ApiOperation(value = "Find stock detail by id.", notes = "Searches for stock using id.")
-    public ResponseEntity < Stock > getStockById(@PathVariable(value = "id") Long stockId)
+    public ResponseEntity < RStock > getStockById(@PathVariable(value = "id") Long stockId)
     throws ResourceNotFoundException {
-        Stock stock = stockService.getStock(stockId)
+        RStock stock = stockService.getStock(stockId)
             .orElseThrow(() -> new ResourceNotFoundException("Stock not found for this id :: " + stockId));
         return ResponseEntity.ok().body(stock);
     }
 
     @PostMapping("/addStock")
     @ApiOperation(value = "Create new stock.", notes = "Requires stock details.")
-    public Stock createStock(@Valid @RequestBody Stock stock) {
+    public RStock createStock(@Valid @RequestBody RStock stock) {
         return stockService.createStock(stock);
     }
 
@@ -67,16 +63,12 @@ public class StockController {
     
     @PutMapping("/updateStock/{id}")
     public void updateStock(@PathVariable(value = "id") Long StockId,
-        @Valid @RequestBody Stock stockDetails) throws ResourceNotFoundException {
-        Stock stock = stockService.getStock(StockId)
+        @Valid @RequestBody RStock stockDetails) throws ResourceNotFoundException {
+        RStock stock = stockService.getStock(StockId)
             .orElseThrow(() -> new ResourceNotFoundException("Stock not found for this id :: " + StockId));
 
         stock.setCompanyName(stockDetails.getCompanyName());
-        //stock.setCategory(stockDetails.getCategory());
         stock.setPrice(stockDetails.getPrice());
-        stock.setQuantityBought(stockDetails.getQuantityBought());
-
-
         stockService.updateStock(stock);
        
     }
@@ -86,7 +78,7 @@ public class StockController {
         @DeleteMapping("/deleteStock/{id}")
         public Map < String, Boolean > deleteStocks(@PathVariable(value = "id") Long StockId)
         throws ResourceNotFoundException {
-            Stock stock = stockService.getStock(StockId)
+            RStock stock = stockService.getStock(StockId)
                 .orElseThrow(() -> new ResourceNotFoundException("Stock not found for this id :: " + StockId));
 
             stockService.deleteStocks(stock.getId());

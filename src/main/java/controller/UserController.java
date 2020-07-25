@@ -29,62 +29,58 @@ import service.UserService;
 @Api(value = "Users")
 @Component
 public class UserController {
- 
+
 	@Autowired
-    private UserService userService;
-	
+	private UserService userService;
+
 	@GetMapping("/")
 	public String home() {
-	     return "Home page";
-	 }
-	 
+		return "Home page";
+	}
+
 	@GetMapping("/displayAllUsers")
 	@ApiOperation(value = "Get all users.", notes = "Returns a list of all users.")
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
-    }
+	public List<User> getAllUsers() {
+		return userService.getAllUsers();
+	}
 
-    @GetMapping("/getUser/{id}")
-    @ApiOperation(value = "Find user detail by id.", notes = "Searches for user using id.")
-    public ResponseEntity < User > getUsersById(@PathVariable(value = "id") Long UserId)
-    throws ResourceNotFoundException {
-        User user = userService.getUser(UserId)
-            .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + UserId));
-        return ResponseEntity.ok().body(user);
-    }
+	@GetMapping("/getUser/{id}")
+	@ApiOperation(value = "Find user detail by id.", notes = "Searches for user using id.")
+	public ResponseEntity<User> getUsersById(@PathVariable(value = "id") Long UserId) throws ResourceNotFoundException {
+		User user = userService.getUser(UserId)
+				.orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + UserId));
+		return ResponseEntity.ok().body(user);
+	}
 
-    @PostMapping("/addUser")
-    @ApiOperation(value = "Create new user.", notes = "Requires user details.")
-    public User createUser(@Valid @RequestBody User user) {
-        return userService.createUser(user);
-    }
+	@PostMapping("/addUser")
+	@ApiOperation(value = "Create new user.", notes = "Requires user details.")
+	public User createUser(@Valid @RequestBody User user) {
+		return userService.createUser(user);
+	}
 
-    @PutMapping("/updateUser/{id}")
-    public void updateUser(@PathVariable(value = "id") Long UserId,
-        @Valid @RequestBody User userDetails) throws ResourceNotFoundException {
-        User user = userService.getUser(UserId)
-            .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + UserId));
+	@PutMapping("/updateUser/{id}")
+	public void updateUser(@PathVariable(value = "id") Long UserId, @Valid @RequestBody User userDetails)
+			throws ResourceNotFoundException {
+		User user = userService.getUser(UserId)
+				.orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + UserId));
 
+		user.setFirstName(userDetails.getFirstName());
+		user.setLastName(userDetails.getLastName());
+		user.setUsername(userDetails.getUsername());
+		user.setPassword(userDetails.getPassword());
 
+		userService.updateUser(user);
 
-        user.setFirstName(userDetails.getFirstName());
-        user.setLastName(userDetails.getLastName());
-        user.setUsername(userDetails.getUsername());
-        user.setPassword(userDetails.getPassword());
+	}
 
-        userService.updateUser(user);
-       
-    }
+	@DeleteMapping("/deleteUser/{id}")
+	public Map<String, Boolean> deleteUser(@PathVariable(value = "id") Long UserId) throws ResourceNotFoundException {
+		User user = userService.getUser(UserId)
+				.orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + UserId));
 
-    @DeleteMapping("/deleteUser/{id}")
-    public Map < String, Boolean > deleteUser(@PathVariable(value = "id") Long UserId)
-    throws ResourceNotFoundException {
-        User user = userService.getUser(UserId)
-            .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + UserId));
-
-        userService.deleteUser(user.getId());
-        Map < String, Boolean > response = new HashMap < > ();
-        response.put("deleted", Boolean.TRUE);
-        return response;
-    } 
+		userService.deleteUser(user.getId());
+		Map<String, Boolean> response = new HashMap<>();
+		response.put("deleted", Boolean.TRUE);
+		return response;
+	}
 }

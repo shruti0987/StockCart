@@ -19,7 +19,7 @@ public class Sector {
         cascade = CascadeType.PERSIST,
         fetch = FetchType.LAZY
     )
-    private Set<Stock> stocks;
+    private Set<RStock> stocks;
 
     public Sector() {
         stocks = new HashSet<>();
@@ -46,13 +46,13 @@ public class Sector {
         this.sectorName = name;
     }
 
-    public Set<Stock> getStocks() {
+    public Set<RStock> getStocks() {
         return stocks;
     }
 
-    public void setStocks(Set<Stock> stocks) {
+    public void setStocks(Set<RStock> stocks) {
         this.stocks = stocks;
-        for (Stock stock : stocks) {
+        for (RStock stock : stocks) {
             stock.setStockCategory(this);
         }
     }
