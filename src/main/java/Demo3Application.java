@@ -27,11 +27,15 @@ public class Demo3Application{
 	@Bean
 	CommandLineRunner loadData(UserRepository repository,SectorRepository r){
 		  return args -> {
-	      repository.save(new User("Shruti","Shukla","shruti","shruti"));
-	      repository.save(new User("Shreya","Pandey","shreya","shreya"));
-	      repository.save(new User("Radha","Kulkarni","radha","radha"));
+	      repository.deleteAll();
+	      r.deleteAll();
+	      repository.save(new User("Hemlata","Borana","hemlata","hemlata"));
 	      repository.save(new User("Anjali","Gaikwad","anjali","anjali"));
 	      repository.save(new User("Esha","Chiplunkar","esha","esha"));
+	      repository.save(new User("Radha","Kulkarni","radha","radha"));
+	      repository.save(new User("Shreya","Pandey","shreya","shreya"));
+	      repository.save(new User("Shruti","Shukla","shruti","shruti"));
+			  
 	      r.save(new Sector("Automobile"));
 	      r.save(new Sector("Banking"));
 	      r.save(new Sector("Energy - Oil & Gas"));
