@@ -1,18 +1,11 @@
 package model;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -28,7 +21,7 @@ public class User {
 	
 	@ApiModelProperty(notes = "The user last name")
 	private String Lname;
-	private String Username;
+	private String username;
 	private String Password;
 	
 	@ApiModelProperty(notes = "The database generated user ID")
@@ -47,7 +40,7 @@ public class User {
 	{
 		this.Fname = Fname;
 		this.Lname = Lname;
-		this.Username = Username;
+		this.username = Username;
 		this.Password = Password;
 	}
 
@@ -86,12 +79,12 @@ public class User {
 	@Column(name = "Username",nullable = false)
 	public String getUsername()
 	{
-		return Username;
+		return username;
 	}
 	
 	public void setUsername(String Username)
 	{
-		this.Username = Username;
+		this.username = Username;
 	}
 	
 	@Column(name = "Password",nullable = false)
