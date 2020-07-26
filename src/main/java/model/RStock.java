@@ -1,7 +1,5 @@
 package model;
 import java.math.BigDecimal;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -9,27 +7,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import yahoofinance.Stock;
 
 @ToString
 @Entity
-@Table(name = "Stocks")
 @ApiModel(description="All details about the Stocks. ")
-public class RStock {
-
-	private String companyName;
+@Setter @Getter
+public class RStock{
+	
 	@ApiModelProperty(notes = "The database generated stock ID")
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)private long stockid;
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="stock_category_id", referencedColumnName="sectorid")
-	private Sector stockCategory;
-	
+	Sector stockCategory;
 	String sector;
+	String companyName;
+	String symbol;
 	BigDecimal price;
 	BigDecimal bid;
 	BigDecimal ask;
@@ -46,48 +44,6 @@ public class RStock {
 	}
 	
 	public RStock(){}
-	
-	@Column(name = "companyName",nullable = false)
-	public String getCompanyName()
-	{
-		return companyName;
-	}
-	
-	@Column(name = "category",nullable = false)
-	public Sector getCategory()
-	{
-		return stockCategory;
-	}
-	
-	@Column(name = "price",nullable = false)
-	public BigDecimal getPrice()
-	{
-		return price;
-	}
-	
-	//@GeneratedValue(strategy = GenerationType.AUTO) //change to foreign key too
-	public void setId(int id)
-	{
-		this.stockid = id;
-	}
-	public long getId()
-	{
-		return stockid;
-	}
-	public void setCompanyName(String companyName)
-	{
-		this.companyName = companyName;
-	}
-	
-	public void setStockCategory(Sector category)
-	{
-		this.stockCategory = category;
-	}
-
-	public void setPrice(BigDecimal price) {
-		// TODO Auto-generated method stub
-		this.price = price;
-	}
 	
 }
 

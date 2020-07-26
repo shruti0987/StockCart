@@ -1,103 +1,60 @@
 package model;
 
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import io.swagger.annotations.ApiModel;
-import java.io.Serializable;
-import javax.persistence.IdClass;
-
+import lombok.Getter;
+import lombok.Setter;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "SavedStocks")
-@ApiModel(description="All details about the Stocks. ")
+@ApiModel(description = "All details about the stocks.")
+@Getter @Setter
+public class SavedStocks{
 
-@IdClass(SectorStocks.class)
-public class SavedStocks implements Serializable 
-{
-
-		@Id
-		private long userid;
-	    @Id
-	    private long stockid;
-	    @Id
-	    private String date;
-
-	    private int quantity;
-	    
-	    
-//	    @ManyToOne(fetch=FetchType.LAZY)
-//		@JoinColumn(name="userid", referencedColumnName="userid")
-//		private User userid;
-	    
+	@Id @Column(name = "user_id")
+	long user_id;
 	
-	    
-	    public SavedStocks() {
-	    }
+	@Column(name = "sector")
+	String sector;
+	
+	@Column(name = "company_name")
+	String companyName;
+	
+	@Column(name = "symbol")
+	String symbol;
+	
+	@Column(name = "price")
+	BigDecimal price;
+	
+	@Column(name = "bid")
+	BigDecimal bid;
+	
+	@Column(name = "ask")
+	BigDecimal ask;
+	
+	@Column(name = "change")
+	BigDecimal change;
+	
+	@Column(name = "saved_on")
+	String saved_on; // Date
 
-	    public SavedStocks(long userid,long stockid,String date,int quantity) {
-	        this.date=date;
-	        this.stockid=stockid;
-	        this.userid=userid;
-	        this.quantity=quantity;
-	    }
+	public SavedStocks() {
+	}
 
-	    // getters and setters
-//	    public void setUserId(User id)
-//		{
-//			this.u = id;
-//		}
-//		public User getUserId()
-//		{
-//			return u;
-//		}
-		
-		public long getStockId()
-		{
-			return stockid;
-		}
-		
-		public void setStockId(long stockid)
-		{
-			this.stockid = stockid;
-		}
-		public long getUserId()
-		{
-			return userid;
-		}
-		
-		public void setUserId(long u)
-		{
-			this.userid = u;
-		}
-		
-		public String getDate()
-		{
-			return date;
-		}
-		public void setDate(String date)
-		{
-			this.date = date;
-		}
-		
-		public int getQuantity()
-		{
-			return quantity;
-		}
-		
-		public void setQuantity(int quantity)
-		{
-			this.quantity = quantity;
-		}
-		
-//		public void setSavedStockUserID(User ui)
-//		{
-//			this.userid = ui;
-//			userid.getSavedStocks().add(this);
-//		}
-		@Override
-		public String toString() {
-			return "Saved Stocks: [userid=" + userid + ", stockid=" + getStockId() + ", Date=" + getDate()+" ,Quantity="+getQuantity()+ "]";
-		}
-		
+	public SavedStocks(long userid,String date, RStock s) {
+		this.user_id = userid;
+		this.companyName = s.companyName;
+		this.symbol  = s.symbol;
+		this.sector = s.sector;
+		this.price = s.price;
+		this.ask = s.ask;
+		this.change = s.change;
+		this.saved_on = date;
+	}
+
 }

@@ -1,6 +1,10 @@
 package model;
 
 import javax.persistence.*;
+
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,9 +13,11 @@ import java.util.Set;
 public class Sector {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter @Setter
     private int sectorid;
 
     @Column(name = "Sector_name")
+    @Getter @Setter
     private String sectorName;
 
     @OneToMany(
@@ -28,22 +34,6 @@ public class Sector {
     public Sector(String name) {
         this.sectorName = name;
         stocks = new HashSet<>();
-    }
-
-    public int getId() {
-        return sectorid;
-    }
-
-    public void setId(int id) {
-        this.sectorid = id;
-    }
-
-    public String getName() {
-        return sectorName;
-    }
-
-    public void setName(String name) {
-        this.sectorName = name;
     }
 
     public Set<RStock> getStocks() {
