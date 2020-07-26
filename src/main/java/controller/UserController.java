@@ -16,13 +16,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import exception.ResourceNotFoundException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import model.User;
-import service.UserService;
+import service.UserServiceImpl;
 
 @RestController
 @RequestMapping("/user")
@@ -31,7 +33,7 @@ import service.UserService;
 public class UserController {
 
 	@Autowired
-	private UserService userService;
+	private UserServiceImpl userService;
 
 	@GetMapping("/")
 	public String home() {
@@ -50,6 +52,7 @@ public class UserController {
 		User user = userService.getUser(UserId)
 				.orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + UserId));
 		return ResponseEntity.ok().body(user);
+		
 	}
 
 	@PostMapping("/addUser")
@@ -83,4 +86,20 @@ public class UserController {
 		response.put("deleted", Boolean.TRUE);
 		return response;
 	}
+	
+	 @RequestMapping(value= {"/", "/login"}, method=RequestMethod.GET)
+	 public ModelAndView login() {
+	  ModelAndView model = new ModelAndView();
+	  
+	  model.setViewName("user/login");
+	  return model;
+	 }
+	 
+	 
+	 @RequestMapping(value= {"/access_denied"}, method=RequestMethod.GET)
+	 public ModelAndView accessDenied() {
+	  ModelAndView model = new ModelAndView();
+	  model.setViewName("errors/access_denied");
+	  return model;
+}
 }
