@@ -35,13 +35,20 @@ public class User {
 	@Setter @Getter @Column(name = "password",nullable = false)
 	private String password;
 	
-	@ApiModelProperty(notes = "The database generated user ID")
-	@Getter @Column(name = "user_id")
-	@Id @GeneratedValue(strategy=GenerationType.AUTO) private long user_id;
+		@ApiModelProperty(notes = "The database generated user ID")
+	@Getter @Column(name = "userid")
+	@Id @GeneratedValue(strategy=GenerationType.AUTO) private long userid;
 	
 	public User(){}
 	
 	public User(String fname,String lname,String username,String password)
+	{
+		this.first_name = fname;
+		this.last_name = lname;
+		this.username = username;
+		this.password = password;
+	}
+	public User(int id,String fname,String lname,String username,String password)
 	{
 		this.first_name = fname;
 		this.last_name = lname;
