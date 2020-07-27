@@ -2,8 +2,6 @@ package controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +17,7 @@ import service.UserService;
 
 @RestController
 @RequestMapping("/user")
-@Api(value = "User-controller")
+@Api(value = "User controller")
 @Component
 public class UserController {
 
@@ -39,14 +37,6 @@ public class UserController {
 			throw new UserNotFoundException("No user found with given userId.");
 		return ResponseEntity.ok().body(user);
 
-	}
-
-	@ApiOperation(value = "get current user", notes = "Returns user id of the current user")
-	public long getCurrentUserId() {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String user_name = auth.getName(); // returns user name of the current logged in user
-		long id = userService.getIdByUsername(user_name);
-		return id;
 	}
 
 	@RequestMapping(value = { "/", "/login" }, method = RequestMethod.GET)

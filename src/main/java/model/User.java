@@ -20,40 +20,34 @@ import lombok.ToString;
 public class User {
 
 	@ApiModelProperty(notes = "Firstname of the user")
-	@Setter @Getter @Column(name = "first_name",nullable = false)
-	private String first_name;
+	@Setter @Getter @Column(name = "first_name")
+	private String firstName;
 	
 	@ApiModelProperty(notes = "Lastname of the user")
-	@Setter @Getter @Column(name = "last_name",nullable = false)
-	private String last_name;
+	@Setter @Getter @Column(name = "last_name")
+	private String lastName;
 	
 	@ApiModelProperty(notes = "Username of the user")
-	@Setter @Getter @Column(name = "user_name",nullable = false)
+	@Setter @Getter @Column(name = "user_name")
 	private String username;
 	
 	@ApiModelProperty(notes = "Password of the user")
-	@Setter @Getter @Column(name = "password",nullable = false)
+	@Setter @Getter @Column(name = "password")
 	private String password;
 	
-		@ApiModelProperty(notes = "The database generated user ID")
-	@Getter @Column(name = "userid")
-	@Id @GeneratedValue(strategy=GenerationType.AUTO) private long userid;
+	@ApiModelProperty(notes = "The database generated user ID")
+	@Getter @Column(name = "user_id")
+	@Id @GeneratedValue(strategy=GenerationType.AUTO) private long userId;
 	
 	public User(){}
 	
 	public User(String fname,String lname,String username,String password)
 	{
-		this.first_name = fname;
-		this.last_name = lname;
+		this.firstName = fname;
+		this.lastName = lname;
 		this.username = username;
 		this.password = password;
 	}
-	public User(int id,String fname,String lname,String username,String password)
-	{
-		this.first_name = fname;
-		this.last_name = lname;
-		this.username = username;
-		this.password = password;
-	}
+	
 	
 }

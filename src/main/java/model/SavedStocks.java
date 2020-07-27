@@ -16,8 +16,8 @@ import java.math.BigDecimal;
 @Getter @Setter
 public class SavedStocks{
 
-	@Id @Column(name = "user_id")
-	long user_id;
+	@Id @Column(name = "user_id",columnDefinition = "default = 0")
+	long userId;
 	
 	@Column(name = "sector")
 	String sector;
@@ -41,20 +41,21 @@ public class SavedStocks{
 	BigDecimal change;
 	
 	@Column(name = "saved_on")
-	String saved_on; // Date
+	String savedOn; // Date
 
-	public SavedStocks() {
-	}
+	public SavedStocks() {}
+	
+	public SavedStocks(long userid) {this.userId = userid;}
 
 	public SavedStocks(long userid,String date, RStock s) {
-		this.user_id = userid;
+		this.userId = userid;
 		this.companyName = s.companyName;
 		this.symbol  = s.symbol;
 		this.sector = s.sector;
 		this.price = s.price;
 		this.ask = s.ask;
 		this.change = s.change;
-		this.saved_on = date;
+		this.savedOn = date;
 	}
 
 }

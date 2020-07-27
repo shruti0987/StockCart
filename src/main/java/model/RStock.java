@@ -21,10 +21,10 @@ import yahoofinance.Stock;
 public class RStock{
 	
 	@ApiModelProperty(notes = "The database generated stock ID")
-	@Id @GeneratedValue(strategy=GenerationType.AUTO)private long stockid;
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="stock_category_id", referencedColumnName="sectorid")
-	Sector stockCategory;
+	@Id @GeneratedValue(strategy=GenerationType.AUTO) private long stockid;
+	//@ManyToOne(fetch=FetchType.LAZY)
+//	@JoinColumn(name="stock_category_id", referencedColumnName="sectorid")
+	//Sector stockCategory;
 	String sector;
 	String companyName;
 	String symbol;

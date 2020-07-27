@@ -1,6 +1,7 @@
 package service;
 
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,9 @@ public class SavedStocksService {
         return repository.findById(id);
     }
 
-    public Optional<SavedStocks> getAllSavedStocksById(long user_id)
+    public Collection<SavedStocks> getAllSavedStocksById(long user_id)
     {
-    	return repository.findById(user_id);
+    	return repository.findByUserId(user_id);
     }
     
     public List<SavedStocks> getAllSavedStocks()
