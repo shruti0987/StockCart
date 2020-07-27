@@ -39,16 +39,15 @@ public class UserController {
 
 	}
 
-	@RequestMapping(value = { "/", "/login" }, method = RequestMethod.GET)
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	@ApiOperation(value = "Find user details by id.", notes = "Searches for user using id.")
 	public ModelAndView login() {
 		ModelAndView model = new ModelAndView();
-
 		model.setViewName("user/login");
 		return model;
 	}
 
-	@RequestMapping(value = { "/access_denied" }, method = RequestMethod.GET)
+	@RequestMapping(value = "/access_denied", method = RequestMethod.GET)
 	@ApiOperation(value = "Find user details by id.", notes = "Searches for user using id.")
 	public ModelAndView accessDenied() {
 		ModelAndView model = new ModelAndView();

@@ -48,6 +48,12 @@ public class User {
 		this.username = username;
 		this.password = password;
 	}
-	
+	public User(long user_id,String fname,String lname,String username,String password)
+	{
+		this.firstName = fname;
+		this.lastName = lname;
+		this.username = username;
+		this.password = password;
+	}
 	
 }

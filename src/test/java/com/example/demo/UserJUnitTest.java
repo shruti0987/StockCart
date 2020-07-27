@@ -1,7 +1,6 @@
 package com.example.demo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import org.aspectj.lang.annotation.Before;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -24,7 +23,7 @@ public class UserJUnitTest{
 		uc = new UserController();
 	}
 
-	@Before
+	@org.junit.Before
 	public void setUpMethod() {
 		u = new User(1001,"firstname1", "lastname1", "firstname1","firstname1");
 

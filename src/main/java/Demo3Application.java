@@ -18,7 +18,7 @@ import repository.UserRepository;
 @EnableAutoConfiguration
 
 public class Demo3Application {
-	
+	/*
 	@Bean
 	CommandLineRunner loadData(UserRepository repository) {
 		return args -> {
@@ -31,7 +31,7 @@ public class Demo3Application {
 			repository.save(new User("Shruti", "Shukla", "shruti", "shruti"));
 		};
 	}
-
+*/
 	public static void main(String[] args) {
 		SpringApplication.run(Demo3Application.class, args);
 	}
