@@ -21,7 +21,7 @@ public class UserService {
 
 	public Long getIdByUsername(String username)
 	{
-		 return repository.getIdByUsername(username);
+		 return repository.findByUsername(username);
 	}
 
 }
