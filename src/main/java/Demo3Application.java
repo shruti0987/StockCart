@@ -35,8 +35,8 @@ public class Demo3Application {
 
 			r.save(new Sector("Automobile"));
 			r.save(new Sector("Banking"));
-			r.save(new Sector("Energy - Oil & Gas"));
-			r.save(new Sector("Financial Services"));
+			r.save(new Sector("Cement"));
+			r.save(new Sector("Energy"));
 			r.save(new Sector("Information Technology"));
 
 		};
