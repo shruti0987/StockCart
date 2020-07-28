@@ -1,0 +1,62 @@
+<div>
+<nav class="A">
+    <div class="top1">
+  
+        <h1 style="font-size: 40px;font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;font-weight:70px;text-shadow: 1px 1px 1px rgb(250, 76, 7),2px 2px 1px red;margin-bottom: 20px; margin-left: 0px;">StockCart</h1>
+    </div>
+  
+      <div class="top2">
+        <a href="./log_out"><i class="fa fa-fw fa-user"></i> LogOut</a>
+       </div>
+  
+    </nav>
+    <!-- <ul class="Listfromlist"></ul>
+    <li *ngFor="let listselected of lists" (click)="onSelect(listselected)"></li> -->
+  
+
+<!-- <div *ngIf="selectedHero">
+
+  <h2>{{selectedHero.name | uppercase}} Details</h2>
+  <div><span>id: </span>{{selectedHero.id}}</div>
+  <div>
+    <label>name:
+      <input [(ngModel)]="selectedHero.name" placeholder="name"/>
+    </label>
+  </div>
+
+</div> -->
+
+<!-- <div style="align-self:centre; width: 600px;">
+  <div style=" align-items: center; margin: 600;">
+<select [(ngModel)]="selected" name="status" placeholder="select" (ngModelChange)="onOptionsSelected()">
+    <option *ngFor="let sta of status" [ngValue]="sta">{{sta}}</option>
+  </select>
+  {{filtered|json}}
+  
+
+  </div>
+</div> -->
+<!-- ---------------------------------------------------------------- -->
+<h2>Choose any one sector</h2>
+
+<li *ngFor="let listselected of lists" (click)="onSelect(listselected)"></li>
+ <ul class="Listfromlist">
+  <!-- <li *ngFor="let hero of List1"
+    [class.selected]="hero === selectedHero"
+    (click)="onSelect(hero)">
+    <span class="badge">{{selectedHero.id}}</span> {{selectedHero.name}}
+  </li> -->
+</ul>
+
+<div *ngIf="selectedHero">
+
+  <h2>{{selectedHero.name | uppercase}} Details</h2>
+  <div><span>id: </span>{{selectedHero.id}}</div>
+  <div>
+    <label>name:
+      <input [(ngModel)]="selectedHero.name" placeholder="name"/>
+    </label>
+  </div>
+
+</div> 
+

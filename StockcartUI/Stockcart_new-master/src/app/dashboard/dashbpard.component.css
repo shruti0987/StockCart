@@ -1,0 +1,63 @@
+#main {
+
+    transition: margin-left .5s;
+  
+    padding: 0px;
+  
+    background-color: grey;
+  
+  }
+  
+  .top2
+  
+  {
+  
+    align-items: right; top: 40px;
+  
+    right: 5px; color: black;
+  
+    font-weight: bold; margin-right: 70px;
+  
+    padding-left: 20px; position: absolute;
+  
+  }
+  
+  .top2 a {
+  
+    text-align: center; padding: 20px;
+  
+    color:black; font-size: 20px;
+  }
+  
+   
+  
+  .A{
+  
+    padding: 0;
+  
+    margin: 0;
+  
+    background-color:rgb(110, 212, 238);
+  
+    flex: initial;
+  
+  text-align: left;
+  
+  height: 100px;
+  
+  word-spacing: 20px;
+  
+  }
+  
+  .top1
+  
+  {
+  
+    top: 7px;
+  
+    padding: 10px;
+    margin-left: 30px;
+  
+    position: absolute;
+  
+  }

@@ -1,0 +1,87 @@
+
+  
+  .top2
+  
+  { align-items: right;top: 45px; right: 5px;color: black;
+  font-weight: bold;
+  margin-right: 70px;
+   padding-left: 20px;
+   position: absolute;
+  }
+  
+  .top2 a {
+  text-align: center;
+  padding: 20px;
+  color:black;
+  font-size: 20px;
+  
+  }
+   
+  .A{
+    padding: 0;margin: 0;
+  background-color:rgb(110, 212, 238);
+  flex: initial;
+  text-align: left;
+  height: 100px;
+  word-spacing: 20px;
+  }
+
+  .top1
+  
+  {    top: 7px;
+    padding: 10px;
+  margin-left: 30px;
+     position: absolute;
+  
+  }
+  .sector
+  {
+      padding-top: 700px;
+      left: 600;
+      align-items: center;
+  }
+  
+   /* -----------------------------------------------------
+   .heroes {
+    margin: 0 0 2em 0;
+    list-style-type: none;
+    padding: 0;
+    width: 15em;
+  }
+  .heroes li {
+    cursor: pointer;
+    position: relative;
+    left: 0;
+    background-color: #EEE;
+    margin: .5em;
+    padding: .3em 0;
+    height: 1.6em;
+    border-radius: 4px;
+  }
+  .heroes li:hover {
+    color: #607D8B;
+    background-color: #DDD;
+    left: .1em;
+  }
+  .heroes li.selected {
+    background-color: #CFD8DC;
+    color: white;
+  }
+  .heroes li.selected:hover {
+    background-color: #BBD8DC;
+    color: white;
+  }
+  .heroes .badge {
+    display: inline-block;
+    font-size: small;
+    color: white;
+    padding: 0.8em 0.7em 0 0.7em;
+    background-color:#405061;
+    line-height: 1em;
+    position: relative;
+    left: -1px;
+    top: -4px;
+    height: 1.8em;
+    margin-right: .8em;
+    border-radius: 4px 0 0 4px;
+  } */
