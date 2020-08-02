@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,12 +58,13 @@ public class FinanceAPIController {
 			new AbstractMap.SimpleEntry<String, List<String>>("Information Technology",
 					new ArrayList<>(Arrays.asList("HCLTECH.NS", "INFY.NS", "TCS.NS", "TECHM.NS", "WIPRO.NS"))));
 
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@GetMapping("/fetch_data/{category}")
 	@ApiOperation(value = "fetch sector data", notes = "Fetch data from yahoo finance api for particular category")
-	public Map<String, String> FetchHistoricData(@PathVariable("category") String category) {
+	public List<RStock> FetchHistoricData(@PathVariable("category") String category) {
 		
 		ObjectMapper mapper = new ObjectMapper();
-		Map<String, String> res = new HashMap<>();
+		List<RStock> res = new ArrayList<>();
 		
 		try {
 			List<String> companies = sector_wise_companies.get(category);
@@ -88,44 +90,49 @@ public class FinanceAPIController {
 						continue;
 					if (res.size() == 5)
 						break;
-					RStock t = new RStock(company, category);
+					RStock t = new RStock(company.getSymbol(),company, category);
 					System.out.println(t);
-					res.put(company.getSymbol(), mapper.writeValueAsString(t));
+					res.add(t);
 				}
 			}
 
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+		String jsonStr = null;
+		 ObjectMapper Obj = new ObjectMapper(); 
+		  
+	        try { 
+	  
+	            // get Oraganisation object as a json string 
+	             jsonStr = Obj.writeValueAsString(res); 
+	  
+	            // Displaying JSON String 
+	            System.out.println(jsonStr); 
+	        } 
+	  
+	        catch (IOException e) { 
+	            e.printStackTrace(); 
+	        } 
+		
+	
 		return res;
 
 	}
-
-	@PostMapping("/save_stock")
-	@ApiOperation(value = "save stock data", notes = "Save the stock details for given user")
-	public void saveStock(@RequestBody RStock stock)
-	{
-		long user_id = user_service.getCurrentUserId();
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-		LocalDateTime now = LocalDateTime.now();
-		SavedStocks ss = new SavedStocks(user_id, dtf.format(now), stock);
-		saved_stocks_service.saveStock(ss);		
-	}
 	
-	@GetMapping("/get_all_saved")
-	@ApiOperation(value = "get all saved", notes = "Get all the stocks saved by the given user")
-	public Collection<SavedStocks> getSavedStocks()
-	{
-		long user_id = user_service.getCurrentUserId();
-		return saved_stocks_service.getAllSavedStocksById(user_id);
-	}
-	
+//	/peration(value = "get all saved", notes = "Get all the stocks saved by the given user")
+//	public Collection<SavedStocks> getSavedStocks()
+//	{
+//		long user_id = user_service.getCurrentUserId();
+//		return saved_stocks_service.getAllSavedStocksById(user_id);
+//	}
+//	
 	@GetMapping("/fetch_data_all") // fetches data for all categories
 	@ApiOperation(value = "fetch data", notes = "Fetch data from yahoo finance api from all categories")
-	public Map<String, String> FetchHistoricDataALL() {
+	public List<RStock> FetchHistoricDataALL() {
 		
 		ObjectMapper mapper = new ObjectMapper();
-		Map<String, String> res = new HashMap<>();
+		List<RStock> res = new ArrayList<>();
 		
 		try {
 			for (String sector : sector_wise_companies.keySet()) {
@@ -141,9 +148,9 @@ public class FinanceAPIController {
 				for (Stock company : all_stocks) {
 					if (company == null)
 						continue;
-					RStock t = new RStock(company, sector);
+					RStock t = new RStock(company.getSymbol(),company, sector);
 					System.out.println(t);
-					res.put(company.getSymbol(), mapper.writeValueAsString(t));
+					res.add(t);
 				}
 			}
 		} catch (IOException e1) {

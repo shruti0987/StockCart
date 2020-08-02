@@ -33,8 +33,9 @@ public class RStock{
 	BigDecimal ask;
 	BigDecimal change;
 	
-	public RStock(Stock s,String sector)
+	public RStock(String symbol,Stock s,String sector)
 	{
+		this.symbol = symbol;
 		this.companyName = s.getName();
 		this.sector = sector;
 		this.price = s.getQuote().getPrice();
